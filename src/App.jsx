@@ -1,4 +1,4 @@
-import { HashRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import WorkSection from './components/work';
 import InstagramCaseStudy from './components/InstagramCaseStudy';
 import ExperienceSection from './components/experience';
