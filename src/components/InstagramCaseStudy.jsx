@@ -1,4 +1,12 @@
+import { useEffect } from 'react';
+
 export default function InstagramCaseStudy() {
+  useEffect(() => {
+    const theme = localStorage.getItem('theme');
+    document.documentElement.classList.toggle('dark', theme === 'dark');
+    localStorage.setItem('theme', theme);
+  }, []);
+
   return (
     <section className="caseStudy">
       <h1 className="caseStudyTitle">

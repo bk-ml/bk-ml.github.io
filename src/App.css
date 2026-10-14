@@ -1,11 +1,50 @@
+/* =========================================
+   THEME VARIABLES
+========================================= */
+
 :root {
+  color-scheme: light;
+
+  --bg: #fafafa;
+  --card: #ffffff;
+  --border: #e5e7eb;
+  --text: #171717;
+  --muted: #666666;
+  --accent: #7c3aed;
+
+  --surface: #f3f4f6;
+  --surface-hover: #e9eaf0;
+  --heading: #171717;
+  --body-text: #404040;
+  --tag-bg: #f3f4f6;
+  --tag-text: #525252;
+  --nav-bg: rgba(250, 250, 250, 0.85);
+  --glow-opacity: 0.08;
+}
+
+html.dark {
+  color-scheme: dark;
+
   --bg: #0b0f17;
   --card: #121826;
-  --border: rgba(255, 255, 255, 0.06);
+  --border: rgba(255, 255, 255, 0.08);
   --text: #e5e7eb;
   --muted: #9ca3af;
   --accent: #7c3aed;
+
+  --surface: #0f172a;
+  --surface-hover: #1e293b;
+  --heading: #f5f5f5;
+  --body-text: #cbd5e1;
+  --tag-bg: rgba(255, 255, 255, 0.06);
+  --tag-text: #d1d5db;
+  --nav-bg: rgba(11, 15, 23, 0.8);
+  --glow-opacity: 0.25;
 }
+
+/* =========================================
+   GLOBAL
+========================================= */
 
 * {
   box-sizing: border-box;
@@ -13,36 +52,51 @@
 
 html {
   scroll-behavior: smooth;
+  background: var(--bg);
 }
 
 body {
   margin: 0;
   font-family: Inter, system-ui, sans-serif;
   color: var(--text);
+  background: var(--bg);
   line-height: 1.6;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
 }
 
 body::before {
   content: '';
   position: fixed;
   inset: 0;
-
   background:
     radial-gradient(
       circle at 20% 20%,
-      rgba(124, 58, 237, 0.25),
+      rgba(124, 58, 237, var(--glow-opacity)),
       transparent 40%
     ),
     radial-gradient(
       circle at 80% 80%,
-      rgba(124, 58, 237, 0.25),
+      rgba(124, 58, 237, var(--glow-opacity)),
       transparent 40%
     );
   pointer-events: none;
   z-index: -1;
 }
 
-/* LAYOUT */
+a {
+  transition: color 0.2s ease;
+}
+
+button {
+  font: inherit;
+}
+
+/* =========================================
+   MAIN LAYOUT
+========================================= */
+
 .container {
   max-width: 1100px;
   width: 92%;
@@ -50,22 +104,24 @@ body::before {
   padding: 40px 0;
 }
 
-/* ================= NAV ================= */
+/* =========================================
+   NAVIGATION
+========================================= */
 
 .nav {
   position: sticky;
   top: 0;
   z-index: 1000;
-
   display: flex;
   justify-content: space-between;
   align-items: center;
-
   padding: 14px;
-
-  background: rgba(11, 15, 23, 0.5);
+  background: var(--nav-bg);
   backdrop-filter: blur(14px);
   border-bottom: 1px solid var(--border);
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease;
 }
 
 .navLeft {
@@ -77,6 +133,7 @@ body::before {
 .logo {
   font-size: 14px;
   font-weight: 600;
+  color: var(--heading);
 }
 
 .role {
@@ -96,8 +153,7 @@ body::before {
   font-size: 13px;
   color: var(--text);
   text-decoration: none;
-  opacity: 0.7;
-  transition: 0.2s ease;
+  opacity: 0.8;
 }
 
 .navRight a:hover {
@@ -109,11 +165,27 @@ body::before {
   padding: 6px 12px;
   border-radius: 8px;
   background: var(--accent);
-  color: white;
+  color: #ffffff;
   opacity: 1;
 }
 
-/* ================= SECTIONS ================= */
+.navRight button {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 6px 10px;
+  cursor: pointer;
+  background: var(--card);
+  color: var(--text);
+  transition: background 0.2s ease;
+}
+
+.navRight button:hover {
+  background: var(--surface-hover);
+}
+
+/* =========================================
+   SECTIONS
+========================================= */
 
 .section {
   margin-bottom: 80px;
@@ -123,164 +195,12 @@ body::before {
   font-size: 20px;
   margin-bottom: 16px;
   letter-spacing: 0.2px;
+  color: var(--heading);
 }
 
-/* ================= HERO ================= */
-
-.hero {
-  padding: 70px 0 50px;
-  @media (min-width: 1024px) and (max-width: 1440px) {
-    margin: auto 15%;
-  }
-}
-
-.heroDesc {
-  text-align: center;
-}
-
-.hero h1 {
-  font-size: 38px;
-  margin: 0 0 10px;
-  line-height: 1.2;
-}
-
-.hero h2 {
-  font-size: 18px;
-  font-weight: 500;
-  color: var(--muted);
-  margin-bottom: 16px;
-}
-
-.hero p {
-  max-width: 700px;
-  color: var(--muted);
-}
-
-/* ================= CARDS ================= */
-
-.card,
-.expCard {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 18px;
-  margin-bottom: 14px;
-
-  transition: all 0.2s ease;
-}
-
-.card:hover,
-.expCard:hover {
-  transform: translateY(-3px);
-}
-
-/* ================= TAGS ================= */
-
-.tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 10px;
-}
-
-.tags span {
-  font-size: 12px;
-  padding: 5px 10px;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.05);
-  color: var(--text);
-}
-
-/* ================= BUTTON ================= */
-
-.btn {
-  display: inline-block;
-  padding: 10px 14px;
-  border-radius: 8px;
-  background: var(--accent);
-  color: white;
-  text-decoration: none;
-  margin-top: 10px;
-  transition: 0.2s ease;
-}
-
-.btn:hover {
-  opacity: 0.9;
-  transform: translateY(-1px);
-}
-
-/* ================= EXPERIENCE ================= */
-
-.expHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.duration {
-  font-size: 12px;
-  color: var(--muted);
-}
-
-.company {
-  font-size: 13px;
-  color: var(--muted);
-}
-
-/* ================= PROJECT ================= */
-
-.projectCard h3 {
-  margin-bottom: 6px;
-}
-
-.projectCard ul {
-  padding-left: 18px;
-  color: var(--muted);
-}
-
-/* ================= UTILS ================= */
-
-.muted {
-  color: var(--muted);
-  font-size: 13px;
-}
-
-/* ================= RESPONSIVE ================= */
-
-@media (max-width: 768px) {
-  .hero h1 {
-    font-size: 30px;
-  }
-
-  .hero h2 {
-    font-size: 16px;
-  }
-
-  .nav {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
-    margin: auto;
-    align-items: center;
-  }
-
-  .expHeader {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 6px;
-    display: block !important;
-  }
-}
-
-@media (max-width: 480px) {
-  .hero h1 {
-    font-size: 26px;
-  }
-
-  .container {
-    padding: 30px 0;
-  }
-}
+/* =========================================
+   HERO
+========================================= */
 
 .hero {
   padding: 80px 0 60px;
@@ -288,7 +208,6 @@ body::before {
   margin: auto;
 }
 
-/* TOP BLOCK */
 .heroTop {
   display: flex;
   flex-direction: column;
@@ -296,47 +215,28 @@ body::before {
   margin-bottom: 18px;
 }
 
-/* MAIN TITLE */
 .hero h1 {
   font-size: 42px;
   line-height: 1.15;
   margin: 0;
   letter-spacing: -0.5px;
+  color: var(--heading);
 }
 
-/* SECOND H1 (secondary emphasis line) */
 .hero h1 + h1 {
   font-weight: 600;
   opacity: 0.95;
 }
 
-/* HIGHLIGHT */
 .highlight {
-  color: #7c3aed;
-}
-
-/* SUB TITLE */
-.hero h2 {
-  font-size: 16px;
-  font-weight: 500;
-  color: #9ca3af;
-  margin: 16px 0 12px;
-  letter-spacing: 0.2px;
-}
-
-/* DESCRIPTION */
-.heroDesc {
-  font-size: 15px;
-  line-height: 1.7;
-  color: #cbd5e1 !important;
+  color: var(--accent);
 }
 
 .hero h2 {
   font-size: 13px;
   font-weight: 500;
-  color: #cbd5e1;
-  margin-top: 5px;
-  margin-bottom: 15px;
+  color: var(--muted);
+  margin: 16px 0 15px;
   padding: 15px 30px;
   display: inline-block;
   border: 1px solid rgba(124, 58, 237, 0.2);
@@ -345,7 +245,622 @@ body::before {
   letter-spacing: 0.3px;
 }
 
-/* RESPONSIVE */
+.heroDesc {
+  text-align: center;
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--muted);
+}
+
+.hero p {
+  max-width: 700px;
+}
+
+/* =========================================
+   GENERAL CARDS
+========================================= */
+
+.card,
+.expCard,
+.projectCard,
+.appleCard {
+  background: var(--card);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.card,
+.expCard {
+  padding: 18px;
+  margin-bottom: 14px;
+}
+
+.card:hover,
+.expCard:hover,
+.projectCard:hover,
+.appleCard:hover {
+  transform: translateY(-3px);
+  border-color: rgba(124, 58, 237, 0.3);
+}
+
+.card h3,
+.expCard h3,
+.projectCard h3 {
+  color: var(--heading);
+}
+
+/* =========================================
+   WORK SECTION
+========================================= */
+
+#work {
+  padding-top: 40px;
+  border-top: 1px solid var(--border);
+}
+
+#work .card {
+  max-width: 820px;
+  margin: 0 auto 18px;
+  text-align: left;
+  padding: 22px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    background 0.2s ease;
+}
+
+#work .card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(124, 58, 237, 0.35);
+}
+
+#work h3 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  text-align: left;
+  color: var(--heading);
+}
+
+#work > .card > p,
+#work .card > p {
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--muted);
+  margin-bottom: 12px;
+  text-align: left;
+}
+
+#work .linkButton {
+  margin: 6px 0 12px;
+  padding: 0;
+  background: transparent;
+  border: none;
+  color: var(--accent);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s ease;
+}
+
+#work .linkButton:hover {
+  transform: translateX(3px);
+  opacity: 0.8;
+}
+
+#work .caseStudy {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+#work .caseStudy h4 {
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--heading);
+  margin-bottom: 6px;
+}
+
+#work .caseStudy p {
+  font-size: 14px;
+  line-height: 1.75;
+  color: var(--body-text);
+  text-align: left;
+  margin: 0;
+}
+
+#work .caseStudy ul {
+  padding-left: 18px;
+  margin: 0;
+  display: grid;
+  gap: 6px;
+  color: var(--body-text);
+}
+
+#work .caseStudy li {
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+#work .deepDive {
+  font-size: 13px;
+  color: var(--accent);
+  padding-left: 12px;
+  border-left: 2px solid rgba(124, 58, 237, 0.4);
+}
+
+/* =========================================
+   EXPERTISE / TAGS
+========================================= */
+
+#expertise .tags {
+  justify-content: flex-start;
+  max-width: 820px;
+  margin: 0 auto;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.tags span {
+  font-size: 12px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: var(--tag-bg);
+  color: var(--tag-text);
+}
+
+.tagPrimary {
+  background: rgba(124, 58, 237, 0.12);
+  color: var(--accent);
+}
+
+.tagSecondary {
+  background: var(--tag-bg);
+  color: var(--tag-text);
+}
+
+/* =========================================
+   EXPERIENCE
+========================================= */
+
+.expCard {
+  background: var(--card);
+  border: 1px solid var(--border);
+  padding: 18px;
+  border-radius: 12px;
+  margin-bottom: 14px;
+}
+
+.expCard:hover {
+  border-color: rgba(124, 58, 237, 0.4);
+  cursor: pointer;
+}
+
+.expHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  cursor: pointer;
+}
+
+.expHeader .role {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0;
+  color: var(--heading);
+}
+
+.company {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.duration {
+  font-size: 12px;
+  color: var(--muted);
+  display: block;
+  margin-top: 4px;
+}
+
+.summary {
+  margin-top: 10px;
+  color: var(--body-text);
+  font-size: 14px;
+}
+
+.details {
+  margin-top: 10px;
+  padding-left: 18px;
+  color: var(--muted);
+  text-align: left;
+}
+
+.chevron {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.title_company {
+  margin-bottom: 0;
+}
+
+/* =========================================
+   PROJECTS
+========================================= */
+
+.projectCard {
+  padding: 24px;
+  border-radius: 16px;
+  background: var(--card);
+  border: 1px solid var(--border);
+}
+
+.projectHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 6px;
+}
+
+.projectHeader h3 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin: 0;
+  color: var(--heading);
+}
+
+.projectLinks {
+  display: flex;
+  gap: 16px;
+  flex-shrink: 0;
+  padding-top: 4px;
+}
+
+.projectLinks a {
+  font-size: 0.85rem;
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.projectLinks a:hover {
+  opacity: 0.7;
+  text-decoration: underline;
+}
+
+.muted {
+  color: var(--muted);
+  font-size: 13px;
+  margin: 0 0 16px;
+  line-height: 1.6;
+}
+
+.metricBar {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.metric {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 10px 14px;
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.metricValue {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--heading);
+}
+
+.metricLabel,
+.metricText {
+  font-size: 0.75rem;
+  color: var(--accent);
+}
+
+.metricText {
+  font-size: 0.85rem;
+  font-weight: 600;
+  align-items: center;
+}
+
+.projectBody {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr);
+  gap: 24px;
+}
+
+.columnLabel {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+
+.projectBody ul {
+  margin: 0;
+  padding-left: 16px;
+  text-align: left;
+}
+
+.projectBody li {
+  font-size: 0.9rem;
+  color: var(--body-text);
+  line-height: 1.8;
+}
+
+/* =========================================
+   APPLE-STYLE CARDS
+========================================= */
+
+.appleGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+}
+
+.appleCard {
+  padding: 18px;
+  border-radius: 18px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  backdrop-filter: blur(12px);
+  transition:
+    transform 0.25s ease,
+    background 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.appleCard:hover {
+  transform: translateY(-4px);
+  background: var(--surface);
+}
+
+.appleCard h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: var(--heading);
+}
+
+.desc {
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin-bottom: 12px;
+}
+
+.appleCard .tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.appleCard .tags span {
+  font-size: 0.72rem;
+  padding: 4px 8px;
+  border-radius: 999px;
+}
+
+/* =========================================
+   BUTTONS
+========================================= */
+
+.btn {
+  display: inline-block;
+  padding: 10px 14px;
+  border-radius: 8px;
+  background: var(--accent);
+  color: #ffffff;
+  text-decoration: none;
+  margin-top: 10px;
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
+}
+
+.btn:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+/* =========================================
+   INSTAGRAM CASE STUDY PAGE
+========================================= */
+
+.caseStudy {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 80px 24px;
+  text-align: left;
+  font-family:
+    system-ui,
+    -apple-system,
+    sans-serif;
+  color: var(--text);
+}
+
+.caseStudyHero {
+  margin-bottom: 50px;
+}
+
+.caseStudyTitle {
+  font-size: 2.6rem;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 16px;
+  letter-spacing: -0.03em;
+  color: var(--heading);
+}
+
+.caseStudyTitle .highlight {
+  color: var(--accent);
+}
+
+.caseStudySubtitle {
+  font-size: 1.05rem;
+  line-height: 1.75;
+  margin-bottom: 28px;
+  max-width: 780px;
+  color: var(--body-text);
+}
+
+.caseStudySection {
+  margin-bottom: 30px;
+}
+
+.caseStudyMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 50px;
+}
+
+.caseStudyMeta span {
+  font-size: 0.75rem;
+  padding: 5px 11px;
+  border-radius: 999px;
+  background: var(--tag-bg);
+  border: 1px solid var(--border);
+  color: var(--tag-text);
+}
+
+.caseStudyStory {
+  display: flex;
+  flex-direction: column;
+  gap: 42px;
+}
+
+.storyBlock {
+  position: relative;
+  padding-left: 18px;
+}
+
+.storyBlock::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 6px;
+  bottom: 6px;
+  width: 2px;
+  background: var(--border);
+  border-radius: 2px;
+}
+
+.storyBlock h2 {
+  font-size: 1.05rem;
+  font-weight: 650;
+  margin-bottom: 10px;
+  color: var(--heading);
+}
+
+.storyBlock h2::before {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-right: 10px;
+  margin-bottom: 2px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.storyBlock p {
+  margin: 0;
+  color: var(--body-text);
+  line-height: 1.8;
+  max-width: 760px;
+}
+
+.storyBlock p + p {
+  margin-top: 10px;
+}
+
+.storyBlock ul {
+  margin: 10px 0 0;
+  padding-left: 18px;
+  max-width: 760px;
+}
+
+.storyBlock li {
+  margin-bottom: 9px;
+  color: var(--body-text);
+  line-height: 1.6;
+}
+
+.storyBlock.highlight {
+  padding: 16px 18px;
+  background: var(--surface);
+  border-left: 3px solid var(--accent);
+  border-radius: 10px;
+}
+
+.caseStudyBack {
+  margin-top: 60px;
+}
+
+.caseStudyBack a {
+  font-size: 0.9rem;
+  color: var(--accent);
+  text-decoration: none;
+}
+
+/* =========================================
+   SMALL UTILITIES
+========================================= */
+
+.projectCard,
+.card,
+.expCard,
+.appleCard {
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (min-width: 1024px) and (max-width: 1440px) {
+  .hero {
+    margin: auto 15%;
+  }
+}
+
 @media (max-width: 768px) {
   .hero {
     padding: 60px 0 40px;
@@ -357,10 +872,64 @@ body::before {
 
   .hero h2 {
     font-size: 14px;
+    padding: 12px 18px;
   }
 
   .heroDesc {
     font-size: 14px;
+  }
+
+  .nav {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .navRight {
+    justify-content: center;
+    gap: 12px;
+  }
+
+  .expHeader {
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  .section {
+    margin-bottom: 40px;
+  }
+
+  #work .card {
+    max-width: 100%;
+    padding: 16px;
+  }
+
+  #work h3 {
+    font-size: 15px;
+  }
+
+  .appleGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .projectBody {
+    grid-template-columns: 1fr;
+  }
+
+  .projectHeader {
+    flex-direction: column;
+  }
+
+  .metricBar {
+    grid-template-columns: 1fr;
+  }
+
+  .caseStudy {
+    padding: 60px 20px;
+  }
+
+  .caseStudyTitle {
+    font-size: 2rem;
   }
 }
 
@@ -368,895 +937,304 @@ body::before {
   .hero h1 {
     font-size: 26px;
   }
-}
-#work {
-  padding-top: 40px;
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
-}
 
-/* WORK CARDS */
-#work .card {
-  background: #121826;
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 14px;
-
-  padding: 20px;
-  margin-bottom: 16px;
-
-  transition: all 0.25s ease;
-}
-
-#work .card:hover {
-  transform: translateY(-3px);
-  border-color: rgba(124, 58, 237, 0.25);
-}
-
-/* TITLE */
-#work h3 {
-  font-size: 16px;
-  font-weight: 600;
-  margin-bottom: 8px;
-  color: #e5e7eb;
-}
-
-/* DESCRIPTION TEXT */
-#work p {
-  font-size: 14px;
-  line-height: 1.7;
-  color: #9ca3af;
-  margin-bottom: 10px;
-}
-
-/* READ MORE BUTTON */
-#work .linkButton {
-  background: transparent;
-  border: none;
-
-  color: #7c3aed;
-  font-size: 13px;
-  font-weight: 500;
-
-  cursor: pointer;
-
-  transition: all 0.2s ease;
-}
-
-#work .linkButton:hover {
-  transform: translateX(2px);
-  opacity: 0.8;
-}
-
-/* CASE STUDY EXPANSION */
-#work .caseStudy {
-  margin-top: 16px;
-  padding-top: 16px;
-
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
-
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-/* CASE STUDY HEADINGS */
-#work .caseStudy h4 {
-  font-size: 12px;
-  font-weight: 600;
-
-  color: #cbd5e1;
-  text-transform: uppercase;
-  letter-spacing: 0.3px;
-}
-
-/* CASE STUDY TEXT */
-#work .caseStudy p {
-  font-size: 14px;
-  line-height: 1.7;
-  color: #9ca3af;
-}
-
-/* LIST */
-#work .caseStudy ul {
-  padding-left: 18px;
-  margin: 0;
-
-  color: #cbd5e1;
-}
-
-#work .caseStudy li {
-  font-size: 14px;
-  line-height: 1.7;
-  margin-bottom: 6px;
-}
-
-/* IMPACT LINE */
-#work .deepDive {
-  font-size: 13px;
-  color: #7c3aed;
-
-  padding-left: 10px;
-  border-left: 2px solid rgba(124, 58, 237, 0.4);
-}
-
-/* RESPONSIVE */
-@media (max-width: 768px) {
-  #work .card {
-    padding: 16px;
+  .container {
+    padding: 30px 0;
   }
 
-  #work h3 {
-    font-size: 15px;
+  .navRight {
+    gap: 10px;
   }
-}
 
-#work {
-  padding-top: 40px;
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
-}
+  .navRight a {
+    font-size: 12px;
+  }
 
-/* IMPORTANT: constrain readable width inside work */
-#work .card {
-  max-width: 820px;
-  margin: 0 auto 18px auto;
+  .caseStudy {
+    padding: 40px 16px;
+  }
 
-  text-align: left; /* 🔥 key fix */
-  padding: 22px;
+  .caseStudyTitle {
+    font-size: 1.8rem;
+  }
 
-  background: #121826;
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 14px;
-
-  transition: all 0.25s ease;
-}
-
-#work .card:hover {
-  transform: translateY(-3px);
-  border-color: rgba(124, 58, 237, 0.25);
-}
-
-/* TITLE */
-#work h3 {
-  font-size: 16px;
-  font-weight: 600;
-  margin-bottom: 8px;
-
-  text-align: left;
-}
-
-/* MAIN DESCRIPTION */
-#work > .card > p {
-  font-size: 14px;
-  line-height: 1.7;
-  color: #9ca3af;
-
-  margin-bottom: 12px;
-  text-align: left;
-}
-
-/* BUTTON */
-#work .linkButton {
-  margin: 6px 0 12px;
-
-  background: transparent;
-  border: none;
-
-  color: #7c3aed;
-  font-size: 13px;
-  font-weight: 500;
-
-  cursor: pointer;
-
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-
-  transition: all 0.2s ease;
-}
-
-#work .linkButton:hover {
-  transform: translateX(3px);
-  opacity: 0.85;
-}
-
-/* CASE STUDY BLOCK */
-#work .caseStudy {
-  margin-top: 16px;
-  padding-top: 16px;
-
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
-
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-}
-
-/* SECTION HEADINGS (OVERVIEW / PROBLEM / etc) */
-#work .caseStudy h4 {
-  font-size: 11px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-
-  color: #cbd5e1;
-  margin-bottom: 6px;
-}
-
-/* TEXT */
-#work .caseStudy p {
-  font-size: 14px;
-  line-height: 1.75;
-  color: #9ca3af;
-
-  text-align: left;
-  margin: 0;
-}
-
-/* BULLETS → MAKE THEM STRUCTURED */
-#work .caseStudy ul {
-  padding-left: 18px;
-  margin: 0;
-
-  display: grid;
-  gap: 6px;
-
-  color: #cbd5e1;
-}
-
-#work .caseStudy li {
-  font-size: 14px;
-  line-height: 1.6;
-}
-
-/* IMPACT / EMPHASIS */
-#work .deepDive {
-  font-size: 13px;
-  color: #7c3aed;
-
-  padding-left: 12px;
-  border-left: 2px solid rgba(124, 58, 237, 0.4);
-}
-
-/* MOBILE FIX */
-@media (max-width: 768px) {
-  #work .card {
-    max-width: 100%;
+  .projectCard {
     padding: 16px;
   }
 }
 
-#expertise .tags {
-  justify-content: flex-start;
-  max-width: 820px;
-  margin: 0 auto;
-}
-
-.expCard {
-  background: #0f172a;
-  border: 1px solid #1f2937;
-  padding: 18px;
-  border-radius: 12px;
-  margin-bottom: 14px;
-  transition: all 0.2s ease;
-}
-
-.expCard:hover {
-  transform: translateY(-2px);
-  border-color: #334155;
-}
-
-.expHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  cursor: pointer;
-}
-
-.role {
-  font-size: 16px;
-  font-weight: 600;
-  margin: 0;
-}
-
-.company {
-  color: #94a3b8;
-  font-weight: 500;
-}
-
-.duration {
-  font-size: 12px;
-  color: #64748b;
-  display: block;
-  margin-top: 4px;
-}
-
-.summary {
-  margin-top: 10px;
-  color: #cbd5e1;
-  font-size: 14px;
-}
-
-.details {
-  margin-top: 10px;
-  padding-left: 18px;
-  color: #94a3b8;
-  text-align: left;
-}
-
-.chevron {
-  color: #94a3b8;
-  font-size: 12px;
-}
-
-.expCard:hover {
-  transform: translateY(-2px);
-  cursor: pointer;
-  border-color: #3b82f6;
-}
-
-.title_company {
-  margin-bottom: 0px;
-}
-
-/* =========================
-   BASE LAYOUT
-========================= */
-
-.caseStudy {
-  max-width: 850px;
-  margin: 0 auto;
-  padding: 80px 20px;
-  font-family:
-    system-ui,
-    -apple-system,
-    sans-serif;
-}
-
-/* =========================
-   HERO
-========================= */
-
-.caseStudyHero {
-  margin-bottom: 50px;
-}
-
-.caseStudySubtitle {
-  font-size: 1.05rem;
-  line-height: 1.7;
-  margin-bottom: 20px;
-}
-
-.caseStudySection {
-  margin-bottom: 30px;
-}
-
-/* meta chips */
-.caseStudyMeta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.caseStudyMeta span {
-  font-size: 0.75rem;
-  padding: 4px 10px;
-  border-radius: 999px;
-  background: rgba(0, 0, 0, 0.05);
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  color: rgba(0, 0, 0, 0.7);
-}
-
-/* =========================
-   STORY FLOW (IMPORTANT)
-========================= */
-
-.caseStudyStory {
-  display: flex;
-  flex-direction: column;
-  gap: 34px;
-}
-
-/* each section = no card */
-.storyBlock h2 {
-  font-size: 1.1rem;
-  font-weight: 600;
-  margin-bottom: 10px;
-  color: rgba(0, 0, 0, 0.85);
-  position: relative;
-  padding-left: 12px;
-}
-
-/* subtle accent line */
-.storyBlock h2::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 4px;
-  width: 3px;
-  height: 16px;
-  background: rgba(0, 0, 0, 0.25);
-  border-radius: 2px;
-}
-
-.storyBlock p {
-  margin: 0;
-  color: rgba(0, 0, 0, 0.7);
-  line-height: 1.75;
-}
-
-.storyBlock ul {
-  margin: 10px 0 0;
-  padding-left: 18px;
-}
-
-.storyBlock li {
-  margin-bottom: 8px;
-  color: rgba(0, 0, 0, 0.75);
-  line-height: 1.6;
-}
-
-/* =========================
-   EMPHASIS BLOCK
-========================= */
-
-.storyBlock.highlight {
-  padding: 14px 16px;
-  border-left: 3px solid rgba(0, 0, 0, 0.2);
-  background: rgba(0, 0, 0, 0.03);
-  border-radius: 8px;
-}
-
-/* =========================
-   BACK LINK
-========================= */
-
-.caseStudyBack {
-  margin-top: 60px;
-}
-
-.caseStudyBack a {
-  font-size: 0.9rem;
-  text-decoration: none;
-}
-
-/* =========================
-   PAGE LAYOUT (CRITICAL FIX)
-========================= */
-
-.caseStudy {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 80px 24px;
-  text-align: left; /* 🔥 fix: remove center feel */
-}
-
-/* =========================
-   HERO
-========================= */
-
-.caseStudySubtitle {
-  font-size: 1.05rem;
-  line-height: 1.7;
-  margin-bottom: 28px;
-  max-width: 750px;
-}
-
-/* =========================
-   META CHIPS (GOOD — KEEP)
-========================= */
-
-.caseStudyMeta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: 50px;
-}
-
-.caseStudyMeta span {
-  font-size: 0.75rem;
-  padding: 4px 10px;
-  border-radius: 999px;
-  background: rgba(0, 0, 0, 0.05);
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  color: rgba(0, 0, 0, 0.7);
-}
-
-/* =========================
-   SECTION STRUCTURE FIX
-========================= */
-
-.caseStudyStory {
-  display: flex;
-  flex-direction: column;
-  gap: 34px;
-}
-
-/* KEY FIX: better readability than your current headings */
-.storyBlock h2 {
-  font-size: 1.05rem;
-  font-weight: 600;
-  margin-bottom: 10px;
-  color: rgba(0, 0, 0, 0.85);
-
-  position: relative;
-  padding-left: 12px;
-}
-
-/* subtle left accent */
-.storyBlock h2::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 4px;
-  width: 3px;
-  height: 16px;
-  background: rgba(0, 0, 0, 0.25);
-  border-radius: 2px;
-}
-
-.storyBlock p {
-  margin: 0;
-  color: rgba(0, 0, 0, 0.72);
-  line-height: 1.75;
-  max-width: 750px; /* 🔥 improves readability */
-}
-
-.storyBlock ul {
-  margin: 10px 0 0;
-  padding-left: 18px;
-  max-width: 750px;
-}
-
-.storyBlock li {
-  margin-bottom: 8px;
-  color: rgba(0, 0, 0, 0.75);
-  line-height: 1.6;
-}
-
-/* =========================
-   IMPORTANT BLOCKS ONLY
-========================= */
-
-.storyBlock.highlight {
-  padding: 16px 18px;
-  border-left: 3px solid rgba(0, 0, 0, 0.25);
-  background: rgba(0, 0, 0, 0.03);
-  border-radius: 10px;
-}
-
-/* =========================
-   BASE CONTAINER
-========================= */
-
-.caseStudy {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 90px 24px;
-  text-align: left;
-}
-
-/* =========================
-   HERO (STRONGER TYPOGRAPHY HIERARCHY)
-========================= */
-.caseStudyTitle {
-  font-size: 2.6rem;
-  font-weight: 700;
-  line-height: 1.2;
-  margin-bottom: 16px;
-  letter-spacing: -0.03em;
-
-  color: rgba(255, 255, 255, 0.9);
-
-  .highlight {
-    color: #d8b4fe; /* soft lavender */
-  }
-}
-
-.caseStudySubtitle {
-  font-size: 1.1rem;
-  line-height: 1.75;
-  max-width: 780px;
-  margin-bottom: 30px;
-}
-
-/* =========================
-   META (KEEP BUT REFINE)
-========================= */
-
-.caseStudyMeta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: 60px;
-}
-
-.caseStudyMeta span {
-  font-size: 0.75rem;
-  padding: 5px 11px;
-  border-radius: 999px;
-  background: rgba(0, 0, 0, 0.04);
-  border: 1px solid rgba(0, 0, 0, 0.07);
-  color: rgba(0, 0, 0, 0.65);
-}
-
-/* =========================
-   STORY FLOW (MOST IMPORTANT UPGRADE)
-========================= */
-
-.caseStudyStory {
-  display: flex;
-  flex-direction: column;
-  gap: 42px; /* more breathing space */
-}
-
-/* =========================
-   SECTION = STORY NODE
-========================= */
-
-.storyBlock {
-  position: relative;
-  padding-left: 18px; /* creates reading line */
-}
-
-/* vertical guide (subtle narrative spine) */
-.storyBlock::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 6px;
-  bottom: 6px;
-  width: 2px;
-  background: rgba(0, 0, 0, 0.06);
-  border-radius: 2px;
-}
-
-/* =========================
-   HEADINGS = SCAN ANCHORS
-========================= */
-
-.storyBlock h2 {
-  font-size: 1.05rem;
-  font-weight: 650;
-  margin-bottom: 10px;
-  color: rgba(0, 0, 0, 0.88);
-}
-
-/* subtle emphasis dot */
-.storyBlock h2::before {
-  content: '';
-  display: inline-block;
-  width: 6px;
-  height: 6px;
-  margin-right: 10px;
-  margin-bottom: 2px;
-  border-radius: 50%;
-  background: rgba(0, 0, 0, 0.25);
-}
-
-/* =========================
-   TEXT (READABILITY FIRST)
-========================= */
-
-.storyBlock p {
-  margin: 0;
-  color: rgba(0, 0, 0, 0.72);
-  line-height: 1.8;
-  max-width: 760px;
-}
-
-/* paragraph spacing when multiple */
-.storyBlock p + p {
-  margin-top: 10px;
-}
-
-/* =========================
-   LISTS (CLEAN + SCANNABLE)
-========================= */
-
-.storyBlock ul {
-  margin: 10px 0 0;
-  padding-left: 18px;
-  max-width: 760px;
-}
-
-.storyBlock li {
-  margin-bottom: 9px;
-  color: rgba(0, 0, 0, 0.75);
-  line-height: 1.6;
-}
-
-/* =========================
-   EMPHASIS BLOCK (ONLY FOR KEY MOMENTS)
-========================= */
-
-.storyBlock.highlight {
-  padding: 16px 18px;
-  background: rgba(0, 0, 0, 0.03);
-  border-left: 3px solid rgba(0, 0, 0, 0.25);
-  border-radius: 10px;
-}
-
-.projectCard {
-  padding: 24px;
-  border-radius: 16px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.projectHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 16px;
-  margin-bottom: 6px;
-}
-.projectHeader h3 {
-  font-size: 1.4rem;
-  font-weight: 700;
-  margin: 0;
-}
-
-.projectLinks {
-  display: flex;
-  gap: 16px;
-  flex-shrink: 0;
-  padding-top: 4px;
-}
-.projectLinks a {
-  font-size: 0.85rem;
-  color: #c4b5fd;
-  text-decoration: none;
-  transition: opacity 0.15s ease;
-}
-.projectLinks a:hover {
-  opacity: 0.7;
-  text-decoration: underline;
-}
-
-.muted {
-  color: rgba(255, 255, 255, 0.6);
-  margin: 0 0 16px;
-  line-height: 1.6;
-}
-
-/* METRIC BAR — three even cells instead of an inline string */
-.metricBar {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1px;
-  background: rgba(255, 255, 255, 0.06);
-  border-radius: 10px;
-  overflow: hidden;
-  margin-bottom: 20px;
-}
-.metric {
-  background: rgba(167, 139, 250, 0.08);
-  border: 1px solid rgba(167, 139, 250, 0.18);
-  padding: 10px 14px;
-  display: flex;
-  align-items: baseline;
-  gap: 6px;
-}
-.metricValue {
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: #fff;
-}
-.metricLabel {
-  font-size: 0.75rem;
-  color: #c4b5fd;
-}
-.metricText {
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: #c4b5fd;
-  align-items: center;
-}
-
-/* BODY SPLIT — explicit min-width: 0 so the grid can't overflow,
-   and a saner ratio since the tags column doesn't need 33% */
-.projectBody {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr);
-  gap: 24px;
-}
-
-.columnLabel {
-  font-size: 0.7rem;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  color: rgba(255, 255, 255, 0.4);
-  margin-bottom: 8px;
-}
-
-.tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
-.tags span {
-  font-size: 0.75rem;
-  padding: 4px 10px;
-  border-radius: 999px;
-}
-.tagPrimary {
-  background: rgba(167, 139, 250, 0.16);
-  color: #c4b5fd;
-}
-.tagSecondary {
-  background: rgba(255, 255, 255, 0.06);
-  color: rgba(255, 255, 255, 0.7);
-}
-
-/* BULLETS — explicitly left-aligned, no longer at the mercy of
-   whatever the parent does */
-.projectBody ul {
-  margin: 0;
-  padding-left: 16px;
-  text-align: left;
-}
-.projectBody li {
-  font-size: 0.9rem;
-  color: rgba(255, 255, 255, 0.75);
-  line-height: 1.8;
-}
-
-.appleGrid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 18px;
-}
-
-@media (max-width: 768px) {
-  .appleGrid {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* 🍏 Apple-style card */
-.appleCard {
-  padding: 18px;
-  border-radius: 18px;
-
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-
-  backdrop-filter: blur(12px);
-
+:root {
+  color-scheme: light;
+
+  --bg: #f5f1eb;
+  --card: #fffcf7;
+  --border: #e4ddd4;
+  --text: #29252f;
+  --muted: #716b78;
+  --accent: #7041c6;
+
+  --surface: #eee8e0;
+  --surface-hover: #e7dfd5;
+  --heading: #29252f;
+  --body-text: #504957;
+  --tag-bg: #eee8e0;
+  --tag-text: #51495d;
+  --nav-bg: rgba(245, 241, 235, 0.88);
+  --glow-opacity: 0.1;
+  --shadow: 0 8px 28px rgba(65, 43, 85, 0.06);
+}
+
+html.dark {
+  color-scheme: dark;
+
+  --bg: #100f1c;
+  --card: #1b1929;
+  --border: #302b43;
+  --text: #f0edf7;
+  --muted: #aaa5bb;
+  --accent: #a78bfa;
+
+  --surface: #211e32;
+  --surface-hover: #2a2540;
+  --heading: #f0edf7;
+  --body-text: #d0cbde;
+  --tag-bg: #29243b;
+  --tag-text: #d6cff0;
+  --nav-bg: rgba(16, 15, 28, 0.86);
+  --glow-opacity: 0.25;
+  --shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
+}
+
+/* Smooth theme transitions */
+body,
+.nav,
+.card,
+.expCard,
+.projectCard,
+.appleCard,
+.metric,
+.metricBar,
+.storyBlock.highlight,
+.caseStudyMeta span,
+.tags span,
+.navRight button {
   transition:
-    transform 0.25s ease,
-    background 0.25s ease;
+    background-color 300ms ease,
+    color 250ms ease,
+    border-color 300ms ease,
+    box-shadow 300ms ease;
 }
 
-/* subtle hover lift */
+body {
+  background-color: var(--bg);
+  color: var(--text);
+}
+
+.card,
+.expCard,
+.projectCard,
+.appleCard {
+  box-shadow: var(--shadow);
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  transition:
+    opacity 400ms ease,
+    background 400ms ease;
+
+  background:
+    radial-gradient(
+      circle at 15% 15%,
+      rgba(112, 65, 198, 0.1),
+      transparent 38%
+    ),
+    radial-gradient(
+      circle at 85% 75%,
+      rgba(217, 119, 170, 0.08),
+      transparent 40%
+    );
+}
+
+html.dark body::before {
+  background:
+    radial-gradient(
+      circle at 15% 15%,
+      rgba(139, 92, 246, 0.2),
+      transparent 38%
+    ),
+    radial-gradient(
+      circle at 85% 75%,
+      rgba(99, 102, 241, 0.14),
+      transparent 40%
+    );
+}
+
+.card:hover,
+.expCard:hover,
+.projectCard:hover,
 .appleCard:hover {
-  transform: translateY(-4px);
-  background: rgba(255, 255, 255, 0.06);
+  transform: translateY(-3px);
+  border-color: rgba(139, 92, 246, 0.35);
 }
 
-.appleCard h4 {
-  font-size: 1rem;
-  font-weight: 600;
-  margin-bottom: 6px;
-  color: rgba(255, 255, 255, 0.9);
+html:not(.dark) .card:hover,
+html:not(.dark) .expCard:hover,
+html:not(.dark) .projectCard:hover,
+html:not(.dark) .appleCard:hover {
+  box-shadow: 0 12px 32px rgba(65, 43, 85, 0.1);
 }
 
-.desc {
-  font-size: 0.85rem;
-  opacity: 0.65;
-  margin-bottom: 12px;
+html.dark .card:hover,
+html.dark .expCard:hover,
+html.dark .projectCard:hover,
+html.dark .appleCard:hover {
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
 }
 
-/* tags become subtle pills */
-.appleCard .tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
 }
 
-.appleCard .tags span {
-  font-size: 0.72rem;
-  padding: 4px 8px;
-  border-radius: 999px;
+/* Smooth theme transitions */
+html,
+body,
+#root,
+.container,
+.nav,
+.card,
+.expCard,
+.projectCard,
+.appleCard,
+.metric,
+.metricBar,
+.storyBlock,
+.caseStudy,
+.caseStudyMeta span,
+.tags span,
+.navRight button,
+.cta {
+  transition:
+    background-color 350ms ease,
+    color 300ms ease,
+    border-color 350ms ease,
+    box-shadow 350ms ease;
+}
 
-  background: rgba(255, 255, 255, 0.06);
-  color: rgba(255, 255, 255, 0.75);
+/* Page background and text */
+body {
+  background-color: var(--bg);
+  color: var(--text);
+}
+
+/* Card transitions, including subtle movement */
+.card,
+.expCard,
+.projectCard,
+.appleCard {
+  transition:
+    background-color 350ms ease,
+    color 300ms ease,
+    border-color 350ms ease,
+    box-shadow 350ms ease,
+    transform 250ms ease;
+}
+
+/* Light theme card hover */
+html:not(.dark) .card:hover,
+html:not(.dark) .expCard:hover,
+html:not(.dark) .projectCard:hover,
+html:not(.dark) .appleCard:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 32px rgba(65, 43, 85, 0.1);
+  border-color: rgba(112, 65, 198, 0.35);
+}
+
+/* Dark theme card hover */
+html.dark .card:hover,
+html.dark .expCard:hover,
+html.dark .projectCard:hover,
+html.dark .appleCard:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
+  border-color: rgba(167, 139, 250, 0.4);
+}
+
+/* Smoothly crossfade the background glow */
+body {
+  position: relative;
+  isolation: isolate;
+}
+
+body::before,
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  transition: opacity 450ms ease;
+}
+
+/* Warm violet and rose glow for light mode */
+body::before {
+  opacity: 1;
+  background:
+    radial-gradient(
+      circle at 15% 15%,
+      rgba(112, 65, 198, 0.09),
+      transparent 38%
+    ),
+    radial-gradient(
+      circle at 85% 75%,
+      rgba(217, 119, 170, 0.07),
+      transparent 40%
+    );
+}
+
+/* Deep violet and indigo glow for dark mode */
+body::after {
+  opacity: 0;
+  background:
+    radial-gradient(
+      circle at 15% 15%,
+      rgba(139, 92, 246, 0.2),
+      transparent 38%
+    ),
+    radial-gradient(
+      circle at 85% 75%,
+      rgba(99, 102, 241, 0.14),
+      transparent 40%
+    );
+}
+
+html.dark body::before {
+  opacity: 0;
+}
+
+html.dark body::after {
+  opacity: 1;
+}
+
+/* Respect accessibility preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
 }

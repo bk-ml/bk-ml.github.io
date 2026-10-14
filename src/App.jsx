@@ -5,6 +5,7 @@ import ExperienceSection from './components/experience';
 import ProjectSection from './components/projects';
 import './App.css';
 import ExpertiseSection from './components/expertise';
+import { useState, useEffect } from 'react';
 
 export default function App() {
   return (
@@ -18,6 +19,31 @@ export default function App() {
 }
 
 function Home() {
+  const [theme, setTheme] = useState(() => {
+    if (typeof window === 'undefined') {
+      return 'light';
+    }
+
+    const savedTheme = localStorage.getItem('theme');
+
+    if (savedTheme === 'light' || savedTheme === 'dark') {
+      return savedTheme;
+    }
+
+    return window.matchMedia('(prefers-color-scheme: dark)').matches
+      ? 'dark'
+      : 'light';
+  });
+
+  useEffect(() => {
+    document.documentElement.classList.toggle('dark', theme === 'dark');
+    localStorage.setItem('theme', theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
+  };
+
   return (
     <div className="container">
       {/* NAV */}
@@ -34,6 +60,9 @@ function Home() {
           <a href="#contact" className="cta">
             Contact
           </a>
+          <button onClick={toggleTheme} aria-label="Toggle dark mode">
+            {theme === 'dark' ? '☀️' : '🌙'}
+          </button>
         </div>
       </nav>
 
